@@ -2,14 +2,14 @@ import pygame
 import os
 
 # Global Constants
-TITLE = "Spaceships Game"
+TITLE = "Spaceships Game"  #Titulo del Juego 
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
-ICON = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship.png"))
+ICON = pygame.image.load(os.path.join(IMG_DIR, "Spaceship/spaceship.png")) #Incono del Juego
 
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 
