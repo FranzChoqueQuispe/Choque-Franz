@@ -16,6 +16,8 @@ class Spaceship(Sprite):    #Clase Spaceship hereda (utiliza datos) de la clase 
         #self.image2 = pygame.transform.scale(self.image, (self.SPACESHIP_WIDTH, self.SPACESHIP_HEIGHT))
         self.rect = self.image.get_rect(midbottom = (self.SPACESHIP_POS_X, self.SPACESHIP_POS_Y))
         #self.rect2 = self.image2.get_rect(midbottom = (self.SPACESHIP_POS_X + SCREEN_WIDTH, self.SPACESHIP_POS_Y))
+        self.type = 'player'
+
 
     def update(self, user_input):
         if user_input[pygame.K_LEFT]:
