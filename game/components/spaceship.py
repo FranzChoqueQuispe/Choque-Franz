@@ -11,9 +11,9 @@ class Spaceship(Sprite):    #Clase Spaceship hereda (utiliza datos) de la clase 
     SPACESHIP_POS_X = SCREEN_WIDTH / 2
     SPACESHIP_POS_Y = 500
     
-    INITIAL_SHOTING_TIME = 1000
-    FINAL_SHOOTING_TIME = 3000
-#
+    #INITIAL_SHOTING_TIME = 1000
+    #FINAL_SHOOTING_TIME = 3000
+    
     def __init__(self):
         self.image = SPACESHIP
         #self.image2 = SPACESHIP
@@ -23,8 +23,8 @@ class Spaceship(Sprite):    #Clase Spaceship hereda (utiliza datos) de la clase 
         #self.rect2 = self.image2.get_rect(midbottom = (self.SPACESHIP_POS_X + SCREEN_WIDTH, self.SPACESHIP_POS_Y))
         self.type = 'player'
 
-        current_time = pygame.time.get_ticks()
-        self.shooting_time = random.randint(current_time + self.INITIAL_SHOTING_TIME, current_time + self.INITIAL_SHOTING_TIME)
+        #current_time = pygame.time.get_ticks()
+        #self.shooting_time = random.randint(current_time + self.INITIAL_SHOTING_TIME, current_time + self.INITIAL_SHOTING_TIME)
 
     def update(self, user_input, bullet_manager):
 
