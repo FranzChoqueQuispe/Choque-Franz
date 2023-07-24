@@ -20,7 +20,7 @@ class EnemyManager:
             enemy.draw(screen)
         
     def add_enemy(self):
-        if len(self.enemies) < 2:
+        if len(self.enemies) < 4:
             image = random.choice(self.list_enemies)
             enemy_width = random.randint(40,70)
             enemy_height = random.randint(40, 70)

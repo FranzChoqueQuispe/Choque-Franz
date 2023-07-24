@@ -1,8 +1,7 @@
 import pygame
-import random
 
 from pygame.sprite import Sprite
-from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT
+from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, DEFAULT_TYPE, EVOLUTION_TYPE
 from game.components.bullets.bullet import Bullet
 
 class Spaceship(Sprite):    #Clase Spaceship hereda (utiliza datos) de la clase Sprite
@@ -11,56 +10,52 @@ class Spaceship(Sprite):    #Clase Spaceship hereda (utiliza datos) de la clase 
     SPACESHIP_POS_X = SCREEN_WIDTH / 2
     SPACESHIP_POS_Y = 500
     
-    #INITIAL_SHOTING_TIME = 1000
-    #FINAL_SHOOTING_TIME = 3000
-    
     def __init__(self):
         self.image = SPACESHIP
-        #self.image2 = SPACESHIP
         self.image = pygame.transform.scale(self.image, (self.SPACESHIP_WIDTH, self.SPACESHIP_HEIGHT))
-        #self.image2 = pygame.transform.scale(self.image, (self.SPACESHIP_WIDTH, self.SPACESHIP_HEIGHT))
         self.rect = self.image.get_rect(midbottom = (self.SPACESHIP_POS_X, self.SPACESHIP_POS_Y))
-        #self.rect2 = self.image2.get_rect(midbottom = (self.SPACESHIP_POS_X + SCREEN_WIDTH, self.SPACESHIP_POS_Y))
-        self.type = 'player'
+        self.type = ['shoot_1', 'shoot_2']
+        self.has_power_up = False
+        self.power_up_type = DEFAULT_TYPE
+        self.power_up_time_up = 0
+        self.shooting_time = 0
 
-        #current_time = pygame.time.get_ticks()
-        #self.shooting_time = random.randint(current_time + self.INITIAL_SHOTING_TIME, current_time + self.INITIAL_SHOTING_TIME)
 
-    def update(self, user_input, bullet_manager):
-
-        if user_input[pygame.K_a]:
-            skill = 0
-            self.shoot(bullet_manager, skill)
-        elif user_input[pygame.K_s]:
-            skill = 1
-            self.shoot(bullet_manager, skill)
+    def update(self, user_input, bullet_manager, game):
+        if game.player.power_up_type != EVOLUTION_TYPE:
+            current_time = pygame.time.get_ticks()
+            if self.shooting_time <= current_time:      
+                if  user_input[pygame.K_a]:
+                    skill = 0
+                    self.type = 'shoot_1'
+                    self.shoot(bullet_manager, skill)
+                    
+                elif user_input[pygame.K_s] :
+                    skill = 1
+                    self.type = 'shoot_2'
+                    self.shoot(bullet_manager, skill)
+                
+                self.shooting_time += 500
+        else:
+            if  user_input[pygame.K_a]:
+                skill = 0
+                self.type = 'shoot_1'
+                self.shoot(bullet_manager, skill)
+                        
+            elif user_input[pygame.K_s] :
+                skill = 1
+                self.type = 'shoot_2'
+                self.shoot(bullet_manager, skill)
 
         if user_input[pygame.K_LEFT]:
             self.rect.x -= 10
-            #if self.rect.left < 0:
             if self.rect.left < -10:
                 self.rect.x = SCREEN_WIDTH - 30
-                #self.rect.x += SCREEN_WIDTH - self.SPACESHIP_WIDTH
-
-            """self.rect2.x -= 10
-            if self.rect.left < -SCREEN_WIDTH:
-                self.rect.x += 2*SCREEN_WIDTH       
-            elif self.rect2.left < -SCREEN_WIDTH:
-                self.rect2.x += 2*SCREEN_WIDTH"""
-            
 
         elif user_input[pygame.K_RIGHT]:
             self.rect.x += 10
-            #if self.rect.right < SCREEN_WIDTH:
             if self.rect.right > SCREEN_WIDTH + 10:
                 self.rect.x = -10
-                #self.rect.x = 0
-
-            """self.rect2.x += 10
-            if self.rect.right > 2*SCREEN_WIDTH:
-                self.rect.x = -40
-            elif self.rect2.right > 2*SCREEN_WIDTH:
-                self.rect2.x = -40"""
 
         elif user_input[pygame.K_UP] and self.rect.bottom > 300:
             self.rect.y -= 10
@@ -74,3 +69,13 @@ class Spaceship(Sprite):    #Clase Spaceship hereda (utiliza datos) de la clase 
     def shoot(self, bullet_manager, skill):
         bullet = Bullet(self)
         bullet_manager.add_bullet(bullet, skill)
+
+    def set_image(self, image = SPACESHIP, size = (SPACESHIP_WIDTH, SPACESHIP_HEIGHT)):
+        self.image = image
+        self.image = pygame.transform.scale(self.image, size)
+
+    def reset(self):
+        self.image = SPACESHIP
+        self.image = pygame.transform.scale(self.image, (self.SPACESHIP_WIDTH, self.SPACESHIP_HEIGHT))
+        self.rect = self.image.get_rect(midbottom = (self.SPACESHIP_POS_X, self.SPACESHIP_POS_Y))
+        self.power_up_type = DEFAULT_TYPE
